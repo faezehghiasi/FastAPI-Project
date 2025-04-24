@@ -15,7 +15,7 @@ def create_blog(db:Session , request: schemas.User):
     return new_blog
 
 
-def delete_blog(db:Session):
+def delete_blog(id : int ,db:Session):
     blog = db.query(models.Blog).filter(models.Blog.id == id)
     if not blog.first():
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Blog not found")
@@ -23,7 +23,7 @@ def delete_blog(db:Session):
     db.commit()
     return {"message": "Blog deleted successfully"}
 
-def update_blog(db:Session , request: schemas.User):
+def update_blog(id:int,db:Session , request: schemas.User):
     blog = db.query(models.Blog).filter(models.Blog.id == id)
     if not blog.first():
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Blog not found")
@@ -31,7 +31,7 @@ def update_blog(db:Session , request: schemas.User):
     db.commit()
     return {"message": "Blog updated successfully"}
 
-def get_blog(db:Session):
+def get_blog(db:Session,id:int):
     blog = db.query(models.Blog).filter(models.Blog.id == id).first()
     if not blog:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Blog not found")

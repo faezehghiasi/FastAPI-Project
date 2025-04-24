@@ -14,20 +14,20 @@ def get_blogs(db: Session = Depends(database.get_db)):
 
 @router.post("/",status_code=status.HTTP_201_CREATED)
 def create(request: schemas.Blog, db: Session = Depends(database.get_db)):
-    return blog.create_blog(db,request)
+    return blog.create_blog(db=db,request=request)
 
 
 @router.delete("/{id}",status_code=status.HTTP_204_NO_CONTENT)
 def delete(id: int, db: Session = Depends(database.get_db)):
-    return blog.delete_blog(db)
+    return blog.delete_blog(db=db,id=id)
 
 
 @router.put("/{id}",status_code=status.HTTP_202_ACCEPTED)
 def update(id: int, request: schemas.Blog, db: Session = Depends(database.get_db)):
-    return blog.update_blog(db,request)
+    return blog.update_blog(db=db,request=request,id=id)
 
 @router.get("/{id}",response_model=schemas.ShowBlog)
 def show(id: int, db: Session = Depends(database.get_db)):
-    return blog.get_blog(db)
+    return blog.get_blog(db=db,id=id)
 
 
