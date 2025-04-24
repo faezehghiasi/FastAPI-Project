@@ -3,16 +3,19 @@ from typing import List
 from .. import schemas , database ,models
 from ..hashing import Hash
 from sqlalchemy.orm import Session
-router = APIRouter()
+router = APIRouter(
+    prefix='/users',
+    tags=['UserS']
+)
 
 
-@router.get("/users",response_model=List[schemas.ShowUser],tags=["Users"])
+@router.get("/",response_model=List[schemas.ShowUser])
 async def get_users(db: Session = Depends(database.get_db)):
     users = db.query(models.User).all()
     return users
 
 
-@router.post("/users",status_code=status.HTTP_201_CREATED,response_model=schemas.ShowUser,tags=["Users"])
+@router.post("/",status_code=status.HTTP_201_CREATED,response_model=schemas.ShowUser)
 def create(request: schemas.User, db: Session = Depends(database.get_db)):
     new_user = models.User(name=request.name, email=request.email ,password=Hash.bcrypt(request.password))
     db.add(new_user)
@@ -22,7 +25,7 @@ def create(request: schemas.User, db: Session = Depends(database.get_db)):
 
 
 
-@router.get("/users/{id}",response_model=schemas.ShowUser,tags=["Users"])
+@router.get("/users/{id}",response_model=schemas.ShowUser)
 def show(id: int, db: Session = Depends(database.get_db)):
     user = db.query(models.User).filter(models.User.id == id).first()
     if not user:

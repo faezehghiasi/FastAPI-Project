@@ -2,15 +2,18 @@ from fastapi import APIRouter, Depends, status, HTTPException
 from typing import List
 from .. import schemas , database ,models
 from sqlalchemy.orm import Session
-router = APIRouter()
+router = APIRouter(
+    prefix='/blogs',
+    tags=['BlogS']
+)
 
-@router.get("/blogs",response_model=List[schemas.ShowBlog],tags=["Blogs"])
+@router.get("/",response_model=List[schemas.ShowBlog])
 async def get_blogs(db: Session = Depends(database.get_db)):
     blogs = db.query(models.Blog).all()
     return blogs
 
 
-@router.post("/blogs",status_code=status.HTTP_201_CREATED,tags=["Blogs"])
+@router.post("/",status_code=status.HTTP_201_CREATED)
 def create(request: schemas.Blog, db: Session = Depends(database.get_db)):
    
     new_blog = models.Blog(title=request.title, body=request.body)
@@ -20,7 +23,7 @@ def create(request: schemas.Blog, db: Session = Depends(database.get_db)):
     return new_blog
 
 
-@router.delete("/blogs/{id}",status_code=status.HTTP_204_NO_CONTENT,tags=["Blogs"])
+@router.delete("/{id}",status_code=status.HTTP_204_NO_CONTENT)
 def delete(id: int, db: Session = Depends(database.get_db)):
     blog = db.query(models.Blog).filter(models.Blog.id == id)
     if not blog.first():
@@ -30,7 +33,7 @@ def delete(id: int, db: Session = Depends(database.get_db)):
     return {"message": "Blog deleted successfully"}
 
 
-@router.put("/blogs/{id}",status_code=status.HTTP_202_ACCEPTED,tags=["Blogs"])
+@router.put("/{id}",status_code=status.HTTP_202_ACCEPTED)
 def update(id: int, request: schemas.Blog, db: Session = Depends(database.get_db)):
     blog = db.query(models.Blog).filter(models.Blog.id == id)
     if not blog.first():
@@ -40,7 +43,7 @@ def update(id: int, request: schemas.Blog, db: Session = Depends(database.get_db
     return {"message": "Blog updated successfully"}
 
 
-@router.get("/blogs/{id}",response_model=schemas.ShowBlog,tags=["Blogs"])
+@router.get("/{id}",response_model=schemas.ShowBlog)
 def show(id: int, db: Session = Depends(database.get_db)):
     blog = db.query(models.Blog).filter(models.Blog.id == id).first()
     if not blog:
