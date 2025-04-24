@@ -25,6 +25,7 @@ def create(request: schemas.User, db: Session = Depends(database.get_db)):
 
 
 
+
 @router.get("/{id}",response_model=schemas.ShowUser)
 def show(id: int, db: Session = Depends(database.get_db)):
     user = db.query(models.User).filter(models.User.id == id).first()

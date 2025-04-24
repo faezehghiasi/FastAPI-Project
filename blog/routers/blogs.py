@@ -14,12 +14,7 @@ def get_blogs(db: Session = Depends(database.get_db)):
 
 @router.post("/",status_code=status.HTTP_201_CREATED)
 def create(request: schemas.Blog, db: Session = Depends(database.get_db)):
-   
-    new_blog = models.Blog(title=request.title, body=request.body)
-    db.add(new_blog)
-    db.commit()
-    db.refresh(new_blog)
-    return new_blog
+    return blog.create_blog(db,request)
 
 
 @router.delete("/{id}",status_code=status.HTTP_204_NO_CONTENT)
