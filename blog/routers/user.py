@@ -3,6 +3,7 @@ from typing import List
 from .. import schemas , database ,models
 from ..hashing import Hash
 from sqlalchemy.orm import Session
+from ..repository import user
 router = APIRouter(
     prefix='/users',
     tags=['UserS']
@@ -10,9 +11,8 @@ router = APIRouter(
 
 
 @router.get("/",response_model=List[schemas.ShowUser])
-async def get_users(db: Session = Depends(database.get_db)):
-    users = db.query(models.User).all()
-    return users
+def get_users(db: Session = Depends(database.get_db)):
+    user.get_users(db=db)
 
 
 @router.post("/",status_code=status.HTTP_201_CREATED,response_model=schemas.ShowUser)
