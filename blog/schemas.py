@@ -1,5 +1,5 @@
 from pydantic import  BaseModel
-
+from typing import List
 
 # ----------------- Input Schemas -----------------
 class User(BaseModel):
@@ -12,12 +12,16 @@ class Blog(BaseModel):
     content: str
 
 
-
+class Login(BaseModel):
+    username : str
+    password :str
+     
 # ----------------- Output Schemas -----------------
 
 class ShowUser(BaseModel):
     name: str
     email: str
+    blogs : List[Blog] = []
     class Config:
         orm_mode = True
 

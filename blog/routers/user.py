@@ -12,7 +12,7 @@ router = APIRouter(
 
 @router.get("/",response_model=List[schemas.ShowUser])
 def get_users(db: Session = Depends(database.get_db)):
-    user.get_users(db=db)
+    return user.get_users(db=db)
 
 
 @router.post("/",status_code=status.HTTP_201_CREATED,response_model=schemas.ShowUser)
