@@ -17,11 +17,7 @@ def get_users(db: Session = Depends(database.get_db)):
 
 @router.post("/",status_code=status.HTTP_201_CREATED,response_model=schemas.ShowUser)
 def create(request: schemas.User, db: Session = Depends(database.get_db)):
-    new_user = models.User(name=request.name, email=request.email ,password=Hash.bcrypt(request.password))
-    db.add(new_user)
-    db.commit()
-    db.refresh(new_user)
-    return new_user
+    return user.create_user(db=db , request=request)
 
 
 

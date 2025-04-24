@@ -10,3 +10,10 @@ def get_users(db:Session):
     return users
 
 
+def create_user(request: schemas.User, db: Session):
+    new_user = models.User(name=request.name, email=request.email ,password=Hash.bcrypt(request.password))
+    db.add(new_user)
+    db.commit()
+    db.refresh(new_user)
+    return new_user
+
