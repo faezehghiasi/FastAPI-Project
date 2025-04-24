@@ -2,16 +2,15 @@ from fastapi import APIRouter, Depends, status, HTTPException
 from typing import List
 from .. import schemas , database ,models
 from sqlalchemy.orm import Session
+from ..repository import blog
 router = APIRouter(
     prefix='/blogs',
     tags=['BlogS']
 )
 
 @router.get("/",response_model=List[schemas.ShowBlog])
-async def get_blogs(db: Session = Depends(database.get_db)):
-    blogs = db.query(models.Blog).all()
-    return blogs
-
+def get_blogs(db: Session = Depends(database.get_db)):
+    return blog.get_all(db)
 
 @router.post("/",status_code=status.HTTP_201_CREATED)
 def create(request: schemas.Blog, db: Session = Depends(database.get_db)):
