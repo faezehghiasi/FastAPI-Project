@@ -57,7 +57,7 @@ The application will be accessible at: `http://127.0.0.1:8000`
 > To access protected routes, include the JWT token in the request headers:
 ```http
 Authorization: Bearer <your_token>
-
+```
 ### Screenshots 📸
 ![image](https://github.com/user-attachments/assets/628a517e-e169-436d-8d85-94262290a3e8)
 
