@@ -27,7 +27,7 @@ def update_blog(id:int,db:Session , request: schemas.Blog):
     blog = db.query(models.Blog).filter(models.Blog.id == id)
     if not blog.first():
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Blog not found")
-    blog.update(request)
+    blog.update(request.model_dump())
     db.commit()
     return {"message": "Blog updated successfully"}
 

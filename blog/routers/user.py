@@ -6,7 +6,7 @@ from sqlalchemy.orm import Session
 from ..repository import user
 router = APIRouter(
     prefix='/users',
-    tags=['UserS']
+    tags=['Users']
 )
 
 

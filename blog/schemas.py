@@ -1,5 +1,6 @@
 from pydantic import  BaseModel
 from typing import List
+from typing import Optional
 
 # ----------------- Input Schemas -----------------
 class User(BaseModel):
@@ -16,6 +17,13 @@ class Login(BaseModel):
     username : str
     password :str
      
+
+class Token(BaseModel):
+    access_token :str
+    token_type :str
+
+class TokenDate(BaseModel):
+    username : Optional[str] = None
 # ----------------- Output Schemas -----------------
 
 class ShowUser(BaseModel):
