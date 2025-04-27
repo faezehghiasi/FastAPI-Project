@@ -23,7 +23,7 @@ class Token(BaseModel):
     token_type :str
 
 class TokenDate(BaseModel):
-    username : Optional[str] = None
+    email : Optional[str] = None
 # ----------------- Output Schemas -----------------
 
 class ShowUser(BaseModel):
